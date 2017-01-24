@@ -29,9 +29,16 @@ public class HelloServiceImpl implements HelloService {
 		this.name = "John";
 	}
 	
+	@Override
 	public void hello(HelloBean helloBean) {
 		log.info("hello, {}", name);
 		handleService.execute(helloBean);
 	}
 
+	@Override
+	public String dofn(String msg) {
+		System.err.println(msg);
+		return "hello " + msg;
+	}
+	
 }

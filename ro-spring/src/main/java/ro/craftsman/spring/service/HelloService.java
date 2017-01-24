@@ -10,5 +10,7 @@ import ro.craftsman.spring.beans.HelloBean;
 public interface HelloService {
 	
 	void hello(HelloBean helloBean);
+	
+	String dofn(String msg);
 
 }

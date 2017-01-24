@@ -1,5 +1,6 @@
 package ro.craftsman.spring;
 
+import ro.craftsman.spring.aop.AopProxy;
 import ro.craftsman.spring.beans.HelloBean;
 import ro.craftsman.spring.context.ApplicationContext;
 import ro.craftsman.spring.context.ScanApplicationContext;
@@ -9,15 +10,15 @@ import ro.craftsman.spring.service.HelloService;
 /**
  * 
  * @author luoyh
- * @date Jan 23, 2017
+ * @date Jan 24, 2017
  */
-public class Man {
-	public static void main(String[] args) {
+public class Aop {
 
+	public static void main(String[] args) {
 		ApplicationContext ctx = new ScanApplicationContext("ro.craftsman.spring.service");
 		
-		HelloService helloService = ctx.getBean("helloService");
-		
+		HelloService helloService = AopProxy.getBean(ctx, "helloService");
+
 		HelloBean helloBean = new HelloBean();
 		helloBean.setId(88991);
 		helloBean.setName("My first IoC like Spring");
@@ -30,7 +31,7 @@ public class Man {
 
 		System.err.println("=========================");
 
-		HelloService helloService1 = ctx.getBean("helloService");
+		HelloService helloService1 = AopProxy.getBean(ctx, "helloService");
 		HelloBean helloBean1 = new HelloBean();
 		helloBean1.setId(99999999);
 		helloBean1.setName("My second IoC like Spring");
@@ -40,8 +41,6 @@ public class Man {
 
 		HandleService handleService1 = ctx.getBean("handleService");
 		handleService1.execute(helloBean1);
-	
 	}
-	
 
 }
