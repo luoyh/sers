@@ -19,7 +19,7 @@ import ro.craftsman.spring.service.HelloService;
  * @author luoyh
  * @date Jan 23, 2017
  */
-@SuppressWarnings({ "unchecked" })
+@SuppressWarnings({ "unchecked", "rawtypes"})
 public class BeanFactory {
 
 	private static final String packs = "ro.craftsman.spring.service";
@@ -66,8 +66,8 @@ public class BeanFactory {
 			String name = file.getName();
 			if (name.endsWith(".class")) {
 				String className = packs + prefix + "." + name.substring(0, name.indexOf("."));
-				Class<?> cls = Class.forName(className);
-				Service s = cls.getDeclaredAnnotation(Service.class);
+				Class cls = Class.forName(className);
+				Service s = (Service) cls.getDeclaredAnnotation(Service.class);
 				if (null != s) {
 					BeanDefinition def = new BeanDefinition();
 					def.setName(s.value());
@@ -114,7 +114,7 @@ public class BeanFactory {
 				Field[] fields = clazz.getDeclaredFields();
 				if (null != fields) {
 					for (Field field : fields) {
-						Autowired autowired = field.getDeclaredAnnotation(Autowired.class);
+						Autowired autowired = field.getAnnotation(Autowired.class);
 						if (null != autowired) {
 							Object autoBean = getBean(field.getName());
 							if (null == autoBean) {
