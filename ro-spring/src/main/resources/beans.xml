@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean id="handleService" class="ro.craftsman.spring.service.impl.HandleServiceImpl" />
+	<bean id="helloService" class="ro.craftsman.spring.service.impl.HelloServiceImpl">
+		<properties>
+			<property name="name" value="Ro Craftsman" />
+			<property name="handleService" ref="handleService" />
+		</properties>
+	</bean>
+</beans>
