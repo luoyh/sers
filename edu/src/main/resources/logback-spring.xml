@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 日志组件启动时，打印调试信息，并监控此文件变化，周期60秒 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+
+	<!-- 项目名称及日志目录定义 -->
+	<property name="PROJECT_NAME" value="edu" />
+
+	<springProfile name="dev">
+		<property name="LOG_HOME" value="e:/datas/logs/${PROJECT_NAME}/dev" />
+	</springProfile>
+	<springProfile name="mini">
+		<property name="LOG_HOME" value="/home/o2o01/log/${PROJECT_NAME}" />
+	</springProfile>
+
+	<springProfile name="online">
+		<property name="LOG_HOME" value="/disk1/tomcat/apache-tomcat-8.0.36-service/logs/${PROJECT_NAME}" />
+	</springProfile>
+
+	<springProfile name="test">
+		<property name="LOG_HOME" value="/disk1/tomcat/apache-tomcat-8.0.36-service/logs/${PROJECT_NAME}" />
+	</springProfile>
+
+
+	<contextName>${CONTEXT_NAME}</contextName>
+
+	<!-- <include resource="org/springframework/boot/logging/logback/base.xml" /> -->
+
+	<!-- ===================================================================== -->
+	<!-- 以下是appender的定义 -->
+	<!-- ===================================================================== -->
+
+	<!-- 记录所有日志到文件 ${PROJECT_NAME}-all.log -->
+	<property name="ALL_LOG_FILE" value="${LOG_HOME}/${PROJECT_NAME}-all.log" />
+	<appender name="FILE_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+		<file>${ALL_LOG_FILE}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${ALL_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy	class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15thread] %logger - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<property name="ALL_LOG_FILE_SQL" value="${LOG_HOME}/${PROJECT_NAME}-sql.log" />
+	<appender name="FILE_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+		<file>${ALL_LOG_FILE_SQL}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${ALL_LOG_FILE_SQL}.%d{yyyy-MM-dd}.%i
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15thread] %logger - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<!-- 记录错误日志到单独文件 ${PROJECT_NAME}-error.log -->
+	<property name="ERROR_LOG_FILE" value="${LOG_HOME}/${PROJECT_NAME}-error.log" />
+	<appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender" additivity="false">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<file>${ERROR_LOG_FILE}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${ERROR_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15thread] %logger - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender" additivity="false">
+		<encoder>
+			<pattern>%d{HH:mm:ss} [%thread] %-5level %logger - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<logger name="com.edu.roy.ex.dao" level="DEBUG" additivity="false">
+		<!-- <appender-ref ref="FILE_SQL" /> -->
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!-- ===================================================================== -->
+	<!-- Root logger的定义 -->
+	<!-- ===================================================================== -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ALL" />
+		<appender-ref ref="FILE_ERROR" />
+	</root>
+</configuration>
