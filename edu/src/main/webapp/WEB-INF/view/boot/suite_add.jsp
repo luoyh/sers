@@ -55,7 +55,7 @@
 			  			<button v-on:click="addQuestion" class="btn btn-primary">增加题目</button>
 			  		</div>
 			  		<div class="col-md-12 questions">
-			  			
+			  			<button class="btn" v-for="(q, i) in questions" v-text="q.code" v-on:click="edit(i)"></button>
 			  		</div>
 			  	</div>
 			  </div>
@@ -113,24 +113,17 @@
 			  </div>
 			  <div class="form-group">
 			  	<label for="" class="col-md-2 control-label">题目图片</label>
-			  	<div class="col-md-10">
-			  		<input id="qstn_image" type="file" class="form-control">
+			  	<div class="col-md-10" id="qstn_imagep">
 			  	</div>
 			  </div>
 			  <div id="opts_div" class="form-group">
 			  	<label for="" class="col-md-2 control-label">题目选项</label>
 			  	<div class="col-md-10" id="qoptions">
-			  		<div class="input-group col-md-12 m10b">
-				      <div class="input-group-addon opts">A</div>
-				      <input type="text" class="form-control">
-				      <div class="input-group-addon" id="add_qoption" style="background: #128067;cursor: pointer;color:#fff;">+</div>
-				  	</div>
 			  	</div>
 			  </div>
 			  <div class="form-group">
 			  	<label for="" class="col-md-2 control-label">题目答案</label>
 			  	<div id="answers" class="col-md-10">
-			  		<label><input name="s_q" type="radio">A</label>
 			  	</div>
 			  </div>
 			  <div class="form-group">
@@ -141,8 +134,7 @@
 			  </div>
 			  <div class="form-group">
 			  	<label for="" class="col-md-2 control-label">答案图片</label>
-			  	<div class="col-md-10">
-			  		<input id="qstn_ass_image" type="file" class="form-control">
+			  	<div class="col-md-10" id="qstn_ass_imagep">
 			  	</div>
 			  </div>
 			  <div class="form-group">
@@ -168,20 +160,76 @@
       layer = layui.layer;
 
       $(function() {
+      	var initQstn = function(opts) {
+      		$('#qstn_code').val(opts.code || '');
+      		$('#qstn_type').val(opts.type || 1);
+      		$('#qstn_title').val(opts.title || '');
+      		$('#qstn_imagep').html('<input id="qstn_image" type="file" class="form-control">');
+      		$('#qstn_image').data('path', opts.image || '');
+      		$('#qstn_ass_imagep').html('<input id="qstn_ass_image" type="file" class="form-control">');
+      		$('#qstn_ass_image').data('path', opts.assImage || '');
+      		$('#qstn_score').val(opts.score || '');
+      		if (opts.type == 1 || opts.type == 2) {
+      			var htm = '';
+      			$.each(JSON.parse(opts.options), function(i, e) {
+      				if (i == 0) {
+      					htm += '<div class="input-group col-md-12 m10b">\
+							      <div class="input-group-addon opts">A</div>\
+							      <input value="'+e+'" type="text" class="form-control">\
+							      <div class="input-group-addon" id="add_qoption" style="background: #128067;cursor: pointer;color:#fff;">+</div>\
+							  	</div>';
+      				} else {
+      					htm += '<div class="input-group col-md-12 m10b">\
+							      <div class="input-group-addon opts"></div>\
+							      <input value="'+e+'" type="text" class="form-control">\
+							      <div class="input-group-addon" id="del_qoption" style="font-weight: bold;background: #da5c1d;cursor: pointer;color:#fff;">-</div>\
+							  	</div>';
+      				}
+      			});
+      			$('#qoptions').html(htm);
+      			optsRefresh(JSON.parse(opts.answers));
+      		} else {
+      			$('#answers textarea').val(JSON.parse(opts.answers||'[]')[0]||'');
+      		}
+
+      	};
+
       	$('#qstn_submit').click(function() {
       		var code = $('#qstn_code').val(), ok = true;
       		if (code == '') {
       			layer.msg('题目编号不能为空');
       			return;
       		}
-      		$('.questions button').each(function(i, e) {
-      			if ($(e).text() == code) {
+      		$.each(vm.questions, function(i, e) {
+      			if (e.code == code) {
       				layer.msg('题目编号已存在');
       				return (ok = false);
       			}
       		});
       		if (ok) {
-      			$('.questions').append('<button class="btn">'+code+'</button>');
+      			var options = [], answers = [], qstnType = $.trim($('#qstn_type').val());
+      			$('#qoptions input').each(function(i, e) {
+      				options.push($(e).val());
+      			});
+      			if (qstnType == 4) {
+      				answers.push($('#answers textarea').val());
+      			} else {
+      				$('#answers input[name="v_q"]:checked').each(function(i, e){
+      					answers.push($(e).val());
+      				});
+      			}
+      			vm.questions.push({
+      				code: code,
+      				type: qstnType,
+      				title: $('#qstn_title').val(),
+      				image: $('#qstn_image').data('path'),
+      				options: JSON.stringify(options),
+      				answers: JSON.stringify(answers),
+      				description: $('#qstn_desc').val(),
+      				assImage: $('#qstn_ass_image').data('path'),
+      				score: $('#qstn_score').val()
+      			});
+      			console.log(JSON.parse(JSON.stringify(vm.questions)));
       			$('#add_quesion_modal').modal('hide');
       		}
       	});
@@ -201,16 +249,24 @@
       		$(this).parent().remove();
       		optsRefresh();
       	});
-      	var optsRefresh = function() {
+      	var optsRefresh = function(answers) {
       		$('#answers').empty();
       		var v = $.trim($('#qstn_type').val());
       		$('#qoptions').children().each(function(i, e){
-      			var t = String.fromCharCode(65+i);
+      			var t = String.fromCharCode(65+i), ck = false;
       			$(e).find('.opts').text(t);
-      			$('#answers').append('<label><input name="v_q" type="'+(v==1?'radio':'checkbox')+'" value="'+t+'">'+t+'</label>');
+      			if (answers && answers.length > 0) {
+      				for(var a in answers) {
+	      				if (answers[a] == v) {
+	      					ck = true;
+	      					break;
+	      				}
+	      			}
+      			}
+      			$('#answers').append('<label><input '+(ck?"checked":"")+' name="v_q" type="'+(v==1?'radio':'checkbox')+'" value="'+t+'">'+t+'</label>');
       		});
       	};
-      	$('#add_qoption').click(function() {
+      	$('#qoptions').on('click', '#add_qoption', function() {
       		//var opts = String.fromCharCode(65 + $('#qoptions').children().length);
       		$('#qoptions').append('<div class="input-group col-md-12 m10b">\
 				      <div class="input-group-addon opts"></div>\
@@ -238,6 +294,8 @@
                   questions: 219,
                   created: '2012-11-01 12:00:11'
                 }
+              ],
+              questions: [
               ]
             },
             methods: {
@@ -245,10 +303,19 @@
 
               },
               addQuestion: function() {
+              	initQstn({
+      				type: 1,
+      				options: '[""]',
+      				answers: '[]'
+              	});
               	$('#add_quesion_modal').modal('show');
               },
               back: function() {
               	window.location.href = root + '/boot.suite/go#hash_suite';
+              },
+              edit: function(i) {
+              	initQstn(this.questions[i]);
+              	$('#add_quesion_modal').modal('show');
               }
             }
           });
