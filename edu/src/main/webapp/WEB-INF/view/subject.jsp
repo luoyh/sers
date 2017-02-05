@@ -9,11 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
 <title>Insert title here</title>
-<link rel="stylesheet" href="${root}/edu/static/lay/css/layui.css">
-<script src="${root}/edu/static/lay/layui.js"></script>
-<script src="${root}/edu/static/lib/vue.min.js"></script>
+<link rel="stylesheet" href="${root}/static/lay/css/layui.css">
+<script src="${root}/static/lay/layui.js"></script>
+<script src="${root}/static/lib/vue.min.js"></script>
 <style>
-	/* 头部 */
 .header{height: 50px; border-bottom: 1px solid #404553;  background-color: #393D49; color: #fff;}
 .logo{position: absolute; left: 0; top: 18px;font-size:1.3em;color:#fff;}
 .logo img{width: 82px; height: 31px;}
@@ -28,7 +27,7 @@
 </style>
 </head>
 <body>
-	<div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin">
   <div class="layui-header header header-demo">
   <div class="layui-main">
     <a class="logo" href="###">
@@ -109,6 +108,231 @@
 							id: 1,
 							name: '语文',
 							created: '2017-01-02'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
+						},
+						{
+							id: 2,
+							name: '数学',
+							created: '2017-02-02'
+						},
+						{
+							id: 3,
+							name: '英语',
+							created: '2017-01-03'
+						},
+						{
+							id: 4,
+							name: '政治',
+							created: '2017-01-01'
 						},
 						{
 							id: 2,
