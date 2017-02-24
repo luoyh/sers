@@ -1,1 +1,1 @@
-> the project is tiny spring IoC and AOP
+> the project for tiny spring IoC and AOP
